@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+	<channel>
+		<title>xkcd.com</title>
+		<link>http://xkcd.com/</link>
+		<description>xkcd.com: A webcomic of romance and math humor.</description>
+		<language>en</language>
+		<item>
+			<title>Napoleon</title>
+			<link>http://xkcd.com/1510/</link>
+			<description>&lt;img src="http://imgs.xkcd.com/comics/napoleon.png" title="&amp;quot;Mr. President, what if the unthinkable happens? What if the launch goes wrong, and Napoleon is not stranded on the Moon?&amp;quot; &amp;quot;Have Safire write up a speech.&amp;quot;" alt="&amp;quot;Mr. President, what if the unthinkable happens? What if the launch goes wrong, and Napoleon is not stranded on the Moon?&amp;quot; &amp;quot;Have Safire write up a speech.&amp;quot;" /&gt;</description>
+			<pubDate>Fri, 10 Apr 2015 04:00:00 -0000</pubDate>
+			<guid>http://xkcd.com/1510/</guid>
+		</item>
+		<item>
+			<title>Scenery Cheat Sheet</title>
+			<link>http://xkcd.com/1509/</link>
+			<description>&lt;img src="http://imgs.xkcd.com/comics/scenery_cheat_sheet.png" title="At the boundary between each zone, stories blend together. Somewhere in the New Mexico desert, the Roadrunner is pursued by a tireless Anton Chigurh." alt="At the boundary between each zone, stories blend together. Somewhere in the New Mexico desert, the Roadrunner is pursued by a tireless Anton Chigurh." /&gt;
+			</description>
+			<pubDate>Wed, 08 Apr 2015 04:00:00 -0000</pubDate>
+			<guid>http://xkcd.com/1509/</guid>
+		</item>
+		<item>
+			<title>Operating Systems</title>
+			<link>http://xkcd.com/1508/</link>
+			<description>&lt;img src="http://imgs.xkcd.com/comics/operating_systems.png" title="One of the survivors, poking around in the ruins with the point of a spear, uncovers a singed photo of Richard Stallman. They stare in silence. &amp;quot;This,&amp;quot; one of them finally says, &amp;quot;This is a man who BELIEVED in something.&amp;quot;" alt="One of the survivors, poking around in the ruins with the point of a spear, uncovers a singed photo of Richard Stallman. They stare in silence. &amp;quot;This,&amp;quot; one of them finally says, &amp;quot;This is a man who BELIEVED in something.&amp;quot;" /&gt;
+			</description>
+			<pubDate>Mon, 06 Apr 2015 04:00:00 -0000</pubDate>
+			<guid>http://xkcd.com/1508/</guid>
+		</item>
+		<item>
+			<title>Metaball</title>
+			<link>http://xkcd.com/1507/</link>
+			<description>&lt;img src="http://imgs.xkcd.com/comics/metaball.png" title="Shoot, it landed in the golf course. Gonna be hard to get it down the--oh, never mind, it rolled onto the ice hazard. Face-off!" alt="Shoot, it landed in the golf course. Gonna be hard to get it down the--oh, never mind, it rolled onto the ice hazard. Face-off!" /&gt;
+			</description>
+			<pubDate>Fri, 03 Apr 2015 04:00:00 -0000</pubDate>
+			<guid>http://xkcd.com/1507/</guid>
+		</item>
+	</channel>
+</rss>
