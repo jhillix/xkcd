@@ -1,0 +1,9 @@
+
+"xkcd updates every Monday, Wednesday, and Friday."
+#foreach ($xkcd in $xkcds)
+
+          Title: ${xkcd.title}
+           Link: ${xkcd.link}
+    Description: ${xkcd.description}
+       Pub Date: ${xkcd.pubDate}
+#end
