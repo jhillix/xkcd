@@ -4,6 +4,6 @@
 
           Title: ${xkcd.title}
            Link: ${xkcd.link}
-    Description: ${xkcd.description}
        Pub Date: ${xkcd.pubDate}
+    Description: ${xkcd.description}
 #end
