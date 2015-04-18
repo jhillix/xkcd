@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 
 /**
@@ -24,7 +25,11 @@ public class Main {
             InputStream inputStream = new XkcdRSS().feed();
 
             // Parse the data.
-            new XkcdRSSParser().parse(inputStream);
+            List<Xkcd> xkcds = new XkcdRSSParser().parse(inputStream);
+
+            // Format the data.
+            System.out.println(new XkcdFormatter().format(xkcds));
+
         } catch (IOException ex) {
             LOG.error(ex.getStackTrace());
         }
