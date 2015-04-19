@@ -1,11 +1,11 @@
 package com.jhillix.xkcd;
 
 import org.apache.log4j.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+
 
 /**
  * Allows the user to add a bookmark for a xkcd webcomic by using Java's Preferences API.
@@ -71,7 +71,7 @@ public class XkcdBookmark {
                 for (String pref : preferences.keys()) {
                     // Only show the title.
                     if (pref.endsWith("-title")) {
-                        System.out.println(pref.substring(0, pref.lastIndexOf("-title")) + lineSeperator);
+                        System.out.println(pref.substring(0, pref.lastIndexOf("-title")));
                     }
                 }
             } catch (BackingStoreException ex) {
@@ -95,27 +95,32 @@ public class XkcdBookmark {
         return bool;
     }
 
-    public void getBookmark(final String bookmark) {
+    public void getBookmark(final String bookmarks) {
         if (hasBookmarks()) {
-            // Is this bookmark valid?
-            String test = preferences.get(bookmark + "-title", "Could not locate a bookmark with that title.");
-            if ("Could not locate a bookmark with that title.".equals(test)) {
-                System.out.println(test + lineSeperator);
-                return;
+            List<Xkcd> xkcds = new ArrayList<>();
+            for (String bookmark : bookmarks.split(",")) {
+                // Is this bookmark valid?
+                bookmark = bookmark.trim();
+                String test = preferences.get(bookmark + "-title", "Could not locate a bookmark with that title.");
+                if ("Could not locate a bookmark with that title.".equals(test)) {
+                    System.out.println(test + " (" + bookmark + ")" + lineSeperator);
+                    continue;
+                }
+
+                // Populate a Xkcd object from the users bookmarks.
+                Xkcd xkcd = new Xkcd();
+                xkcd.setTitle(preferences.get(bookmark + "-title", ""));
+                xkcd.setLink(preferences.get(bookmark + "-link", ""));
+                xkcd.setPubDate(preferences.get(bookmark + "-pubDate", ""));
+                xkcd.setDescription(preferences.get(bookmark + "-description", ""), false);
+
+                // Add it to the List.
+                xkcds.add(xkcd);
             }
 
-            // Populate a Xkcd object from the users bookmarks. TODO: allow user to input more than one bookmark at a time.
-            Xkcd xkcd = new Xkcd();
-            xkcd.setTitle(preferences.get(bookmark + "-title", ""));
-            xkcd.setLink(preferences.get(bookmark + "-link", ""));
-            xkcd.setPubDate(preferences.get(bookmark + "-pubDate", ""));
-            xkcd.setDescription(preferences.get(bookmark + "-description", ""), false);
-
             // Format it.
-            List<Xkcd> xkcds = new ArrayList<>();
-            xkcds.add(xkcd);
             System.out.println(new XkcdFormatter().format(xkcds));
-            System.out.println("End of bookmark." + lineSeperator);
+            System.out.println("End of bookmarks." + lineSeperator);
         }
     }
 }

@@ -32,9 +32,9 @@ public class Main {
 
             // Does the user want to read one of their bookmarks?
             Scanner input = new Scanner(System.in);
-            System.out.print("Would you read a bookmark? <y or n> ");
+            System.out.print("Would you like to read a bookmark? <y or n> ");
             if ("y".equals(input.nextLine())) {
-                System.out.print("Enter the name of a bookmark: ");
+                System.out.print("Enter the name of a bookmark or multiple bookmarks separated by a \",\": ");
                 xkcdBookmark.getBookmark(input.nextLine());
             }
 
