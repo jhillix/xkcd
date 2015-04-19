@@ -45,7 +45,7 @@ public class XkcdRSSParser {
 
                 xkcdElement.setTitle(node.selectSingleNode("title").getText());
                 xkcdElement.setLink(node.selectSingleNode("link").getText());
-                xkcdElement.setDescription(node.selectSingleNode("description").getText());
+                xkcdElement.setDescription(node.selectSingleNode("description").getText(), true);
                 xkcdElement.setPubDate(node.selectSingleNode("pubDate").getText());
 
                 xkcdList.add(xkcdElement);

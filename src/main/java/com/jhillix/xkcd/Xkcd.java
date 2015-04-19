@@ -43,10 +43,14 @@ public class Xkcd {
         this.link = link;
     }
 
-    public void setDescription(final String description) {
-        int start = (description.indexOf("title") + 7);
-        int end = (description.indexOf("alt") - 2);
-        this.description = HtmlEscape.unescapeHtml(description.substring(start, end));
+    public void setDescription(final String description, final boolean subNeeded) {
+        if (subNeeded) {
+            int start = (description.indexOf("title") + 7);
+            int end = (description.indexOf("alt") - 2);
+            this.description = HtmlEscape.unescapeHtml(description.substring(start, end));
+        } else {
+            this.description = description;
+        }
     }
 
     public void setPubDate(final String pubDate) {
