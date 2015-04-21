@@ -37,7 +37,7 @@ public class XkcdFormatter {
         try {
             Velocity.evaluate(velocityContext, stringWriter, "", reader);
         } catch (IOException ex) {
-            LOG.error(ex.getStackTrace());
+            LOG.error(ex.getMessage(), ex);
         }
 
         return stringWriter.toString();
