@@ -27,7 +27,7 @@ public class XkcdRSS {
      * @throws IOException
      */
     public InputStream feed() throws IOException {
-        LOG.info("Getting xkcd RSS feed.");
+        LOG.info("Getting xkcd.com RSS feed.");
 
         try {
             url = new URL("http://xkcd.com/rss.xml");
