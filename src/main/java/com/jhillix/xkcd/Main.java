@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 
 /**
- * Where process begins.
+ * Where the process begins.
  *
  * @author jhillix
  */
