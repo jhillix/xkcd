@@ -75,6 +75,7 @@ public class XkcdBookmark {
      */
     public void showBookmarks() {
         if (hasBookmarks()) {
+            System.out.println("Here are your current bookmarks:");
             try {
                 for (String pref : preferences.keys()) {
                     // Only show the title.
@@ -83,7 +84,7 @@ public class XkcdBookmark {
                     }
                 }
             } catch (BackingStoreException ex) {
-                LOG.error(ex.getStackTrace());
+                LOG.error(ex.getMessage(), ex);
             }
         } else {
             System.out.println("No bookmarks have been added.");
@@ -102,7 +103,7 @@ public class XkcdBookmark {
                 bool = true;
             }
         } catch (BackingStoreException ex) {
-            LOG.error(ex.getStackTrace());
+            LOG.error(ex.getMessage(), ex);
         }
 
         return bool;
@@ -186,9 +187,9 @@ public class XkcdBookmark {
         if (hasBookmarks()) {
 
             try {
-                preferences.removeNode();
+                preferences.clear();
             } catch (BackingStoreException ex) {
-                LOG.error(ex.getStackTrace());
+                LOG.error(ex.getMessage(), ex);
             }
 
             System.out.println("Successfully removed all bookmarks!");

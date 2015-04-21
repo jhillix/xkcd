@@ -33,7 +33,7 @@ public class XkcdRSS {
             url = new URL("http://xkcd.com/rss.xml");
 
         } catch (MalformedURLException ex) {
-            LOG.warn(ex.getStackTrace());
+            LOG.warn(ex.getMessage(), ex);
         }
 
         return url.openStream();

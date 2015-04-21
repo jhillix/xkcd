@@ -51,7 +51,7 @@ public class XkcdRSSParser {
                 xkcdList.add(xkcdElement);
             }
         } catch (DocumentException ex) {
-            LOG.warn(ex.getStackTrace());
+            LOG.warn(ex.getMessage(), ex);
         }
 
         return xkcdList;
