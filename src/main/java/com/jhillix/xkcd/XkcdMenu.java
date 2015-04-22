@@ -9,12 +9,22 @@ import java.io.Reader;
 import java.io.StringWriter;
 
 
+/**
+ * Main interface for the user. Just a simple Velocity bit that presents the user with a menu for the application.
+ *
+ * @author jhillix
+ */
 public class XkcdMenu {
 
     private static Logger LOG = Logger.getLogger(XkcdMenu.class);
 
     public XkcdMenu() {}
 
+    /**
+     * Show it!
+     *
+     * @return the menu as a String
+     */
     public String showMenu() {
         Reader reader = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("menu.vm"));
 

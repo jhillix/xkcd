@@ -1,14 +1,13 @@
 package com.jhillix.xkcd;
 
 import jline.console.ConsoleReader;
+import jline.console.completer.StringsCompleter;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import sun.misc.Signal;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -38,9 +37,26 @@ public class Main {
             // Instantiate a JLine ConsoleReader to give the user a typical CLI feel with some shaheen!
             ConsoleReader console = new ConsoleReader();
 
+            // Create a Set for holding tab completion Strings. Add some bits to start off with.
+            Set<String> tabs = new HashSet<>();
+            tabs.add("clear");
+            tabs.add("exit");
+            tabs.add("q");
+
+            // Add the Set to our ConsoleReader.
+            console.addCompleter(new StringsCompleter(tabs));
+
             // Run forever or until the user sends the interrupt signal (e.g. Ctrl+C).
             while (true) {
                 String option = console.readLine("] ");
+
+                // We need to account for tab completion input here (e.g. whitespace is appended).
+                option = option.trim();
+
+                // Add the new value to our Set so the user can use it for tab completion.
+                tabs.add(option);
+                // TODO: is there a better way to do this??
+                console.addCompleter(new StringsCompleter(tabs));
 
                 switch (option) {
                     case "1":
@@ -84,6 +100,11 @@ public class Main {
                     case "clear":
                         console.clearScreen();
                         System.out.println(menu.showMenu());
+                        break;
+                    case "exit":
+                    case "q":
+                        console.shutdown();
+                        System.exit(0);
                         break;
                     default:
                         System.out.println("Invalid option.");
