@@ -141,8 +141,10 @@ public class XkcdBookmark {
             }
 
             // Format it.
-            System.out.println(new XkcdFormatter().format(xkcds));
-            System.out.println("End of bookmarks." + lineSeperator);
+            if (!xkcds.isEmpty()) {
+                System.out.println(new XkcdFormatter().format(xkcds));
+                System.out.println("End of bookmarks." + lineSeperator);
+            }
         }
     }
 
