@@ -1,14 +1,13 @@
 package com.jhillix.xkcd;
 
+import jline.console.ConsoleReader;
+import jline.console.completer.StringsCompleter;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import sun.misc.Signal;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 
 /**
@@ -28,21 +27,39 @@ public class Main {
         Signal.handle(new Signal("INT"), new SignalTrap());
 
         // Show the menu.
-        System.out.println(new XkcdMenu().showMenu());
+        XkcdMenu menu = new XkcdMenu();
+        System.out.println(menu.showMenu());
 
         XkcdBookmark xkcdBookmark = new XkcdBookmark();
         List<Xkcd> xkcds = new ArrayList<>();
 
-        // Run forever or until the user sends the interrupt signal (e.g. Ctrl+C).
-        while (true) {
-            try {
-                // Prompt user.
-                Scanner integer = new Scanner(System.in);
-                Scanner string = new Scanner(System.in);
-                System.out.print("Enter an option or \"Ctrl+C\" to quit: ");
+        try {
+            // Instantiate a JLine ConsoleReader to give the user a typical CLI feel with some shaheen!
+            ConsoleReader console = new ConsoleReader();
 
-                switch (integer.nextInt()) {
-                    case 1:
+            // Create a Set for holding tab completion Strings. Add some bits to start off with.
+            Set<String> tabs = new HashSet<>();
+            tabs.add("clear");
+            tabs.add("exit");
+            tabs.add("q");
+
+            // Add the Set to our ConsoleReader.
+            console.addCompleter(new StringsCompleter(tabs));
+
+            // Run forever or until the user sends the interrupt signal (e.g. Ctrl+C).
+            while (true) {
+                String option = console.readLine("] ");
+
+                // We need to account for tab completion input here (e.g. whitespace is appended).
+                option = option.trim();
+
+                // Add the new value to our Set so the user can use it for tab completion.
+                tabs.add(option);
+                // TODO: is there a better way to do this??
+                console.addCompleter(new StringsCompleter(tabs));
+
+                switch (option) {
+                    case "1":
                         // Retrieve the data.
                         InputStream inputStream = new XkcdRSS().feed();
 
@@ -52,44 +69,50 @@ public class Main {
                         // Format the data.
                         System.out.println(new XkcdFormatter().format(xkcds));
                         break;
-                    case 2:
+                    case "2":
                         // User wants to add a bookmark.
                         if (!xkcds.isEmpty()) {
-                            System.out.print("Enter a \"title\" to bookmark: ");
-                            System.out.println(xkcdBookmark.addBookmark(string.nextLine(), xkcds));
+                            System.out.println(xkcdBookmark.addBookmark(console.readLine("Enter a \"title\" to bookmark: "), xkcds));
                         } else {
                             System.out.println("You must run option \"1\" first.");
                         }
                         break;
-                    case 3:
+                    case "3":
                         // User wants to view bookmarks. If the user has bookmarks show them.
                         xkcdBookmark.showBookmarks();
                         break;
-                    case 4:
+                    case "4":
                         // User wants to read one of their bookmarks.
                         if (xkcdBookmark.hasBookmarks()) {
-                            System.out.print("Enter the name of a bookmark or multiple bookmarks separated by a comma: ");
-                            xkcdBookmark.getBookmark(string.nextLine());
+                            xkcdBookmark.getBookmark(console.readLine("Enter the name of a bookmark or multiple bookmarks separated by a comma: "));
                         } else {
                             System.out.println("You have no bookmarks to read!");
                         }
                         break;
-                    case 5:
+                    case "5":
                         // User wants to remove a bookmark.
-                        System.out.print("Enter the name of a bookmark to delete: ");
-                        xkcdBookmark.removeBookmark(string.nextLine());
+                        xkcdBookmark.removeBookmark(console.readLine("Enter the name of a bookmark to delete: "));
                         break;
-                    case 6:
+                    case "6":
                         // User wants to remove all of their bookmarks.
                         xkcdBookmark.removeAllBookmarks();
+                        break;
+                    case "clear":
+                        console.clearScreen();
+                        System.out.println(menu.showMenu());
+                        break;
+                    case "exit":
+                    case "q":
+                        console.shutdown();
+                        System.exit(0);
                         break;
                     default:
                         System.out.println("Invalid option.");
                         break;
                 }
-            } catch (IOException | InputMismatchException ex) {
-                LOG.error(ex.getMessage(), ex);
             }
+        } catch (IOException | InputMismatchException ex) {
+            LOG.error(ex.getMessage(), ex);
         }
     }
 }
