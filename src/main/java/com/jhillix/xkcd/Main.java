@@ -4,10 +4,14 @@ import jline.console.ConsoleReader;
 import jline.console.completer.StringsCompleter;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.fusesource.jansi.AnsiConsole;
 import sun.misc.Signal;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+
+import static org.fusesource.jansi.Ansi.Color.GREEN;
+import static org.fusesource.jansi.Ansi.ansi;
 
 
 /**
@@ -23,12 +27,15 @@ public class Main {
         // Configure Log4J.
         PropertyConfigurator.configure(Main.class.getClassLoader().getResource("log4j.properties"));
 
+        // Give our user that good ol' tabby feel.
+        AnsiConsole.systemInstall();
+
         // Hackish way to control the flow of this program.
         Signal.handle(new Signal("INT"), new SignalTrap());
 
-        // Show the menu.
+        // Show the menu. In Color!!!
         XkcdMenu menu = new XkcdMenu();
-        System.out.println(menu.showMenu());
+        System.out.println(ansi().fg(GREEN).a(menu.showMenu()));
 
         XkcdBookmark xkcdBookmark = new XkcdBookmark();
         List<Xkcd> xkcds = new ArrayList<>();
@@ -48,7 +55,7 @@ public class Main {
 
             // Run forever or until the user sends the interrupt signal (e.g. Ctrl+C).
             while (true) {
-                String option = console.readLine("] ");
+                String option = console.readLine("a> ");
 
                 // We need to account for tab completion input here (e.g. whitespace is appended).
                 option = option.trim();
@@ -103,7 +110,13 @@ public class Main {
                         break;
                     case "exit":
                     case "q":
+                        // Reset our console color.
+                        System.out.println(ansi().reset());
+                        // Uninstall AnsiConsole.
+                        AnsiConsole.systemUninstall();
+                        // Shutdown ConsoleReader.
                         console.shutdown();
+                        // Exit.
                         System.exit(0);
                         break;
                     default:
