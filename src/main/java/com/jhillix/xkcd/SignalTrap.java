@@ -1,7 +1,10 @@
 package com.jhillix.xkcd;
 
+import org.fusesource.jansi.AnsiConsole;
 import sun.misc.Signal;
 import sun.misc.SignalHandler;
+
+import static org.fusesource.jansi.Ansi.ansi;
 
 
 /**
@@ -17,6 +20,11 @@ public class SignalTrap implements SignalHandler {
     @Override
     public void handle(final Signal signal) {
         System.out.println("Shutting down");
+        // Reset our console color.
+        System.out.println(ansi().reset());
+        // Uninstall AnsiConsole.
+        AnsiConsole.systemUninstall();
+        // Exit.
         System.exit(0);
     }
 }
