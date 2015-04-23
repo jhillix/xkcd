@@ -5,8 +5,8 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
-import org.unbescape.html.HtmlEscape;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,7 +29,8 @@ public class XkcdRSSParser {
      *
      * @param inputStream
      */
-    public void parse(final InputStream inputStream) {
+    public List<Xkcd> parse(final InputStream inputStream) {
+        List<Xkcd> xkcdList = new ArrayList<>();
 
         try {
             LOG.info("Creating XML reader.");
@@ -38,24 +39,21 @@ public class XkcdRSSParser {
             List<Node> nodes = document.selectNodes("/rss/channel/item");
 
             LOG.info("Parsing RSS feed.");
-            String description;
-            int start;
-            int end;
-            System.out.println("\n\"xkcd updates every Monday, Wednesday, and Friday.\"\n");
+
             for (Node node : nodes) {
-                System.out.println("Title: " + node.selectSingleNode("title").getText());
-                System.out.println("Link: " + node.selectSingleNode("link").getText());
+                Xkcd xkcdElement = new Xkcd();
 
-                // Yeah, this part could of been done with RegEx :P
-                description = node.selectSingleNode("description").getText();
-                start = (description.indexOf("title") + 7);
-                end = (description.indexOf("alt") - 2);
-                System.out.println("Description: " + HtmlEscape.unescapeHtml(description.substring(start, end)));
+                xkcdElement.setTitle(node.selectSingleNode("title").getText());
+                xkcdElement.setLink(node.selectSingleNode("link").getText());
+                xkcdElement.setDescription(node.selectSingleNode("description").getText(), true);
+                xkcdElement.setPubDate(node.selectSingleNode("pubDate").getText());
 
-                System.out.println("Pub Date: " + node.selectSingleNode("pubDate").getText() + "\n");
+                xkcdList.add(xkcdElement);
             }
         } catch (DocumentException ex) {
-            LOG.warn(ex.getStackTrace());
+            LOG.warn(ex.getMessage(), ex);
         }
+
+        return xkcdList;
     }
 }
